@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API de Perros - Dog CEO</title>
+  <style>
+    #contenedorImagen img {
+      max-width: 100%; /* Ajustar el tamaño de la imagen */
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>Imagen Aleatoria de un Perro</h1>
+  <button id="cargarPerro">Cargar Perro</button>
+  <div id="contenedorImagen"></div>
+
+  <script>
+    document.getElementById('cargarPerro').addEventListener('click', obtenerPerro);
+
+    function obtenerPerro() {
+      fetch('https://dog.ceo/api/breeds/image/random')
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Error en la respuesta de red: ' + response.statusText);
+          }
+          return response.json();
+        })
+        .then(data => {
+          mostrarImagen(data.message);
+        })
+        .catch(error => console.error('Error al obtener la imagen del perro:', error));
+    }
+
+    function mostrarImagen(url) {
+      const contenedor = document.getElementById('contenedorImagen');
+      contenedor.innerHTML = `<img src="${url}" alt="Perro">`;
+    }
+  </script>
+</body>
+</html>
